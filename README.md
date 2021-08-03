@@ -2,12 +2,12 @@
 
 --------------------------------------
 
-![PyPI Version](https://img.shields.io/pypi/v/pypo.svg)
+![PyPI Version](https://img.shields.io/optifolio/v/pypo.svg)
 
 
 **OptiFolio** is a package for portfolio optimization.
 
--   Documentation: (COMING SOON) <https://pypo.readthedocs.io>.
+-   Documentation: (COMING SOON) <https://optifolio.readthedocs.io>.
 
 > **NOTE**
 >
