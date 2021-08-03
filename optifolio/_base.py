@@ -148,7 +148,7 @@ class PortfolioOptimizer:
 
         # ========== init figure ==========
         p = figure(plot_width=width, plot_height=height, tooltips=tt)
-        # backfround & border color
+        # background & border color
         p.background_fill_color = '#2A2B4A'
         p.border_fill_color = '#1A1F3C'
         # grid
@@ -180,7 +180,7 @@ class PortfolioOptimizer:
         p.yaxis.axis_label_standoff = 20
         # no logo
         p.toolbar.logo = None
-        # toolbas
+        # toolbar
         if toolbar is False:
             p.toolbar_location = None
 
@@ -205,7 +205,7 @@ class PortfolioOptimizer:
         p.circle('x', 'y', size=20, fill_color='#45D7B4', fill_alpha=0.8,
                  line_color='#45D7B4', line_width=1.5, source=optim_source)
 
-        # individual stocks
+        # ========== individual stocks ==========
         stocks_source = ColumnDataSource(data=dict(
             x=self.stock_vol,
             y=self.stock_ret,

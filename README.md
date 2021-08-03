@@ -2,8 +2,8 @@
 
 --------------------------------------
 
-![PyPI Version](https://img.shields.io/optifolio/v/pypo.svg)
-
+![PyPI Version](https://img.shields.io/pypi/v/optifolio)
+![License](https://img.shields.io/pypi/l/optifolio)
 
 **OptiFolio** is a package for portfolio optimization.
 
@@ -11,10 +11,22 @@
 
 > **NOTE**
 >
-> This project is in early stage development, and can thus go trough major changes.
+> This project is in early stage development, and can thus go through major changes.
+
+Install
+-------
+
+MLVizLib can be installed from
+[PyPI](https://pypi.org/project/optifolio/):
+
+``` {.sourceCode .python}
+pip install optifolio
+```
 
 Features
 --------
 
--   TODO
+-   **PortfolioOptimizer [object]:** Optimize your portfolio based on Sharpe Ratio.
+    * **fit [method]:** Fits daily stock data into the optimizer. Generates annual measures.
+    * **plot_efficient_frontier [method]:** Generates a plot for efficient frontier, optimal portfolio, and individual stocks.
 
