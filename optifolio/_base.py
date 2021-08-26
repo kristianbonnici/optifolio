@@ -230,6 +230,8 @@ class PortfolioOptimizer:
         if output is not None:
             show(p)
 
+        return p
+
     def plot_weights(self):
         pass
 
