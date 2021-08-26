@@ -140,7 +140,11 @@ class PortfolioOptimizer:
     def _min_volatility(self, weights):
         return self._get_return_volatility_sharpe(weights)[1]
 
-    def plot_efficient_frontier(self, width=800, height=500, output="frontier.html", toolbar=False):
+    def plot_efficient_frontier(self, width=800, height=500, output="frontier.html", toolbar=False,
+                                background_fill_color='#28283B', border_fill_color='#1F1E2C',
+                                grid_line_color='#7A7F9B', text_line_color='#F3F6FF'
+                                ):
+
         from bokeh.plotting import ColumnDataSource, figure, output_file, show
 
         # output to static HTML file
@@ -155,36 +159,39 @@ class PortfolioOptimizer:
         ]
 
         # ========== init figure ==========
-        p = figure(plot_width=width, plot_height=height, tooltips=tt)
+        p = figure(plot_width=width, plot_height=height, tooltips=tt,
+                   y_range=(min(self.stock_ret)-0.05, max(self.stock_ret)+0.05),
+                   x_range=(min(self.frontier_vol)-0.01, max(self.frontier_vol)+0.02))
+
         # background & border color
-        p.background_fill_color = '#2A2B4A'
-        p.border_fill_color = '#1A1F3C'
+        p.background_fill_color = background_fill_color
+        p.border_fill_color = border_fill_color
         # grid
         p.ygrid.grid_line_alpha = 0.5
         p.ygrid.grid_line_dash = [6, 4]
-        p.ygrid.grid_line_color = '#7A7F9B'
+        p.ygrid.grid_line_color = grid_line_color
         p.xgrid.grid_line_alpha = 0.5
         p.xgrid.grid_line_dash = [6, 4]
-        p.xgrid.grid_line_color = '#7A7F9B'
+        p.xgrid.grid_line_color = grid_line_color
         # axis
-        p.xaxis.axis_line_color = "#F3F6FF"
-        p.yaxis.axis_line_color = "#F3F6FF"
+        p.xaxis.axis_line_color = text_line_color
+        p.yaxis.axis_line_color = text_line_color
 
-        p.xaxis.major_label_text_color = "#F3F6FF"
-        p.yaxis.major_label_text_color = "#F3F6FF"
+        p.xaxis.major_label_text_color = text_line_color
+        p.yaxis.major_label_text_color = text_line_color
 
-        p.xaxis.major_tick_line_color = "#F3F6FF"
+        p.xaxis.major_tick_line_color = text_line_color
         p.xaxis.major_tick_line_width = 3
-        p.xaxis.minor_tick_line_color = "#F3F6FF"
-        p.yaxis.major_tick_line_color = "#F3F6FF"
+        p.xaxis.minor_tick_line_color = text_line_color
+        p.yaxis.major_tick_line_color = text_line_color
         p.yaxis.major_tick_line_width = 3
-        p.yaxis.minor_tick_line_color = "#F3F6FF"
+        p.yaxis.minor_tick_line_color = text_line_color
 
         p.xaxis.axis_label = "Risk [Volatility]"
-        p.xaxis.axis_label_text_color = "#F3F6FF"
+        p.xaxis.axis_label_text_color = text_line_color
         p.xaxis.axis_label_standoff = 20
         p.yaxis.axis_label = "Expected Return"
-        p.yaxis.axis_label_text_color = "#F3F6FF"
+        p.yaxis.axis_label_text_color = text_line_color
         p.yaxis.axis_label_standoff = 20
         # no logo
         p.toolbar.logo = None
