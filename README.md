@@ -16,7 +16,7 @@
 Install
 -------
 
-MLVizLib can be installed from
+OptiFolio can be installed from
 [PyPI](https://pypi.org/project/optifolio/):
 
 ``` {.sourceCode .python}

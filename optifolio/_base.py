@@ -45,9 +45,9 @@ class PortfolioOptimizer:
         self.min_ret = min_ret
 
         # ========== daily returns ==========
-        if ret_type is 'log':
+        if ret_type == 'log':
             daily_ret = np.log(data / data.shift(1))
-        elif ret_type is 'arithmetic':
+        elif ret_type == 'arithmetic':
             daily_ret = data.pct_change(1)
         else:
             raise ValueError(
@@ -64,7 +64,10 @@ class PortfolioOptimizer:
 
         # ========== frontier returns ==========
         if self.min_ret < max(self.stock_ret):
-            self.frontier_ret = np.linspace(self.min_ret, max(daily_ret.mean() * 252), 30)
+            if self.min_ret < min(self.stock_ret):
+                self.min_ret = min(self.stock_ret)
+            self.frontier_ret = np.linspace(
+                self.min_ret, max(daily_ret.mean() * 252), 30)
         else:
             raise ValueError(
                 """The provided input value for min_ret '{}' is over the maximum attainable return.
@@ -72,13 +75,14 @@ class PortfolioOptimizer:
             )
 
         # ========== init weights (equal distribution) ==========
-        init_guess = np.array([1 / (len(data.columns)) for _ in range(0, len(data.columns))])
+        init_guess = np.array([1 / (len(data.columns))
+                               for _ in range(0, len(data.columns))])
 
         # ========== weights bounds ==========
         bounds = [(0, 1) for _ in range(0, len(data.columns))]
 
         # ========== optimize sharpe ratio ==========
-        if obj is 'sharpe':
+        if obj == 'sharpe':
             for i, ret in enumerate(self.frontier_ret):
                 # constraints to equal 0
                 cons = ({'type': 'eq', 'fun': self._check_sum},
@@ -91,11 +95,13 @@ class PortfolioOptimizer:
                                        bounds=bounds,
                                        constraints=cons)
 
-                if verbosity is 1:
-                    print("Optimize: {}/30 \n Success: {}\n".format(i + 1, opt_results.success))
+                if verbosity == 1:
+                    print("Optimize: {}/30 \n Success: {}\n".format(i
+                                                                    + 1, opt_results.success))
 
                 self.frontier_vol.append(opt_results['fun'])
-                self.frontier_sharpe.append((ret - self.rf_ret) / opt_results['fun'])
+                self.frontier_sharpe.append(
+                    (ret - self.rf_ret) / opt_results['fun'])
                 if self.frontier_sharpe[-1] > self.sharpe:
                     self.sharpe = self.frontier_sharpe[-1]
                     self.ret = ret
@@ -126,7 +132,8 @@ class PortfolioOptimizer:
     def _get_return_volatility_sharpe(self, weights):
         weights = np.array(weights)
         ret = np.sum(self.daily_ret.mean() * weights) * 252
-        vol = np.sqrt(np.dot(weights.T, np.dot(self.daily_ret.cov() * 252, weights)))
+        vol = np.sqrt(np.dot(weights.T, np.dot(
+            self.daily_ret.cov() * 252, weights)))
         sr = (ret - self.rf_ret) / vol
         return np.array([ret, vol, sr])
 
@@ -137,7 +144,8 @@ class PortfolioOptimizer:
         from bokeh.plotting import ColumnDataSource, figure, output_file, show
 
         # output to static HTML file
-        output_file(output)
+        if output is not None:
+            output_file(output)
 
         tt = [
             ("Name", "@desc"),
@@ -192,7 +200,8 @@ class PortfolioOptimizer:
             size=len(self.frontier_vol) * [0],
             sharpe=self.frontier_sharpe,
         ))
-        p.line('x', 'y', line_width=3, line_color='#2EE0DD', source=frontier_source)
+        p.line('x', 'y', line_width=3,
+               line_color='#2EE0DD', source=frontier_source)
 
         # ========== optimal sharpe ==========
         optim_source = ColumnDataSource(data=dict(
@@ -218,7 +227,8 @@ class PortfolioOptimizer:
         p.scatter('x', 'y', color='#D544B1', source=stocks_source)
 
         # ========== show results ==========
-        show(p)
+        if output is not None:
+            show(p)
 
     def plot_weights(self):
         pass
