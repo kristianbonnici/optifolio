@@ -160,8 +160,9 @@ class PortfolioOptimizer:
 
         # ========== init figure ==========
         p = figure(plot_width=width, plot_height=height, tooltips=tt,
-                   y_range=(min(self.stock_ret)-0.05, max(self.stock_ret)+0.05),
-                   x_range=(min(self.frontier_vol)-0.01, max(self.frontier_vol)+0.02))
+                   y_range=(min(self.stock_ret)-0.1, max(self.stock_ret)+0.1),
+                   x_range=(min(self.frontier_vol)-0.1, max(self.frontier_vol)+0.1),
+                   tools="pan,wheel_zoom,save")
 
         # background & border color
         p.background_fill_color = background_fill_color
