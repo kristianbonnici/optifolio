@@ -289,5 +289,117 @@ class PortfolioOptimizer:
 
         return p
 
-    def plot_cumulative_return(self):
-        pass
+    def plot_cumulative_return(self, benchmark_data=None,
+                               output="cumulative_return.html",
+                               toolbar=False,
+                               background_fill_color='#28283B',
+                               border_fill_color='#1F1E2C',
+                               grid_line_color='#7A7F9B',
+                               text_line_color='#F3F6FF'
+                               ):
+
+        from bokeh.layouts import column
+        from bokeh.models import ColumnDataSource, RangeTool
+        from bokeh.io import output_file, show
+        from bokeh.plotting import figure
+
+        weighted_norm_ret = {}
+        for col in self.data:
+            weighted_norm_ret[col] = self.data[col] / self.data.iloc[0][col]
+        weighted_norm_ret = pd.DataFrame(weighted_norm_ret)
+        for col, weight in zip(weighted_norm_ret, self.stock_weights):
+            weighted_norm_ret[col] = weighted_norm_ret[col] * weight
+        weighted_norm_ret['Total'] = weighted_norm_ret.sum(axis=1)
+
+        source = ColumnDataSource(data=dict(date=weighted_norm_ret.index, close=weighted_norm_ret['Total']))
+
+        p = figure(plot_width=800, plot_height=400, x_axis_type="datetime",
+                   x_range=(min(weighted_norm_ret.index), max(weighted_norm_ret.index)),
+                   tools="pan,wheel_zoom,save")
+        p.grid.grid_line_alpha = 0.9
+
+        p.line('date', 'close', source=source, color='#2EE0DD', legend_label='Portfolio', line_width=1.5)
+
+        if benchmark_data is not None:
+            benchmark_data.iloc[0:] = benchmark_data.iloc[0:] / benchmark_data.iloc[0]
+            source2 = ColumnDataSource(data=dict(date=benchmark_data.index, close=benchmark_data.iloc[:, 0]))
+            p.line('date', 'close', source=source2, color='#D544B1',
+                   legend_label=benchmark_data.columns[0], line_width=1.5)
+
+        p.legend.location = "top_left"
+
+        # background & border color
+        p.background_fill_color = background_fill_color
+        p.border_fill_color = border_fill_color
+        # grid
+        p.ygrid.grid_line_alpha = 0.5
+        p.ygrid.grid_line_dash = [6, 4]
+        p.ygrid.grid_line_color = grid_line_color
+        p.xgrid.grid_line_alpha = 0.5
+        p.xgrid.grid_line_dash = [6, 4]
+        p.xgrid.grid_line_color = grid_line_color
+        # axis
+        p.xaxis.axis_line_color = text_line_color
+        p.yaxis.axis_line_color = text_line_color
+        p.xaxis.major_label_text_color = text_line_color
+        p.yaxis.major_label_text_color = text_line_color
+        p.xaxis.major_tick_line_color = text_line_color
+        p.xaxis.major_tick_line_width = 3
+        p.xaxis.minor_tick_line_color = text_line_color
+        p.yaxis.major_tick_line_color = text_line_color
+        p.yaxis.major_tick_line_width = 3
+        p.yaxis.minor_tick_line_color = text_line_color
+        p.yaxis.axis_label = "Return"
+        p.yaxis.axis_label_text_color = text_line_color
+        p.yaxis.axis_label_standoff = 20
+        # no logo
+        p.toolbar.logo = None
+        # toolbar
+        if toolbar is False:
+            p.toolbar_location = None
+
+        select = figure(plot_height=130, plot_width=800, y_range=p.y_range,
+                        x_axis_type="datetime", y_axis_type=None,
+                        tools="", toolbar_location=None, background_fill_color="#efefef")
+
+        range_tool = RangeTool(x_range=p.x_range)
+        range_tool.overlay.fill_color = "#D544B1"
+        range_tool.overlay.fill_alpha = 0.1
+
+        select.line('date', 'close', source=source, color='#2EE0DD')
+        select.ygrid.grid_line_color = None
+        select.add_tools(range_tool)
+        select.toolbar.active_multi = range_tool
+
+        # background & border color
+        select.background_fill_color = '#28283B'
+        select.border_fill_color = '#1F1E2C'
+        # background & border color
+        select.background_fill_color = '#28283B'
+        select.border_fill_color = '#1F1E2C'
+        # grid
+        select.ygrid.grid_line_alpha = 0.5
+        select.ygrid.grid_line_dash = [6, 4]
+        select.ygrid.grid_line_color = '#7A7F9B'
+        select.xgrid.grid_line_alpha = 0.5
+        select.xgrid.grid_line_dash = [6, 4]
+        select.xgrid.grid_line_color = '#7A7F9B'
+        # axis
+        select.xaxis.axis_line_color = '#F3F6FF'
+        select.yaxis.axis_line_color = '#F3F6FF'
+        select.xaxis.major_label_text_color = '#F3F6FF'
+        select.yaxis.major_label_text_color = '#F3F6FF'
+        select.xaxis.major_tick_line_color = '#F3F6FF'
+        select.xaxis.major_tick_line_width = 3
+        select.xaxis.minor_tick_line_color = '#F3F6FF'
+        select.yaxis.major_tick_line_color = '#F3F6FF'
+        select.yaxis.major_tick_line_width = 3
+        select.yaxis.minor_tick_line_color = '#F3F6FF'
+        # no logo
+        select.toolbar.logo = None
+
+        if output is not None:
+            output_file("cumulative_return.html", title="cumulative return")
+            show(column(p, select))
+
+        return column(p, select)
