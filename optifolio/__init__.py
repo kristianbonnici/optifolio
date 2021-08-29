@@ -2,6 +2,6 @@
 
 __author__ = """Kristian Bonnici"""
 __email__ = 'kristiandaaniel@gmail.com'
-__version__ = '0.4.4'
+__version__ = '0.4.5'
 
 from ._base import PortfolioOptimizer
