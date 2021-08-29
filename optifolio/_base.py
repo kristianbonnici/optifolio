@@ -240,8 +240,52 @@ class PortfolioOptimizer:
 
         return p
 
-    def plot_weights(self):
-        pass
+    def plot_weights(self,
+                     width=500,
+                     height=500,
+                     output="weights.html",
+                     background_fill_color='#28283B',
+                     border_fill_color='#1F1E2C',
+                     colorpalette=None
+                     ):
+        from math import pi
+        from bokeh.io import output_file, show
+        from bokeh.plotting import figure
+        from bokeh.transform import cumsum
+
+        if colorpalette is None:
+            colorpalette = ['#6EDDDC', '#7B67CE', '#55A5E3', '#0088C4', '#8081CB',
+                            '#9E5B9D', '#FF7576', '#F0568F', '#BD4AA6', '#A33660',
+                            '#83F0BB', '#A4F6A1', '#CCF987', '#FFCC5B', '#F9F871']
+
+        if output is not None:
+            output_file(output)
+
+        data = pd.DataFrame(data={'stock': self.stock_names, 'weight': self.stock_weights * 100})
+        data['angle'] = data['weight'] / data['weight'].sum() * 2 * pi
+
+        if len(colorpalette) < data.shape[0]:
+            while len(colorpalette) < data.shape[0]:
+                colorpalette *= 2
+        data['color'] = colorpalette[: data.shape[0]]
+
+        p = figure(plot_width=width, plot_height=height, toolbar_location=None,
+                   tools="hover", tooltips="@stock: @weight{0.0} %", x_range=(-0.5, 1.0))
+
+        p.wedge(x=0, y=1, radius=0.4,
+                start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+                line_color="white", fill_color='color', legend_field='stock', source=data)
+
+        p.axis.axis_label = None
+        p.axis.visible = False
+        p.grid.grid_line_color = None
+
+        # background & border color
+        p.background_fill_color = background_fill_color
+        p.border_fill_color = border_fill_color
+
+        if output is not None:
+            show(p)
 
     def plot_cumulative_return(self):
         pass
