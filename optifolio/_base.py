@@ -359,6 +359,8 @@ class PortfolioOptimizer:
         if toolbar is False:
             p.toolbar_location = None
 
+        p.sizing_mode = "scale_width"
+
         select = figure(plot_height=int(height*0.3), plot_width=width, y_range=p.y_range,
                         x_axis_type="datetime", y_axis_type=None,
                         tools="", toolbar_location=None, background_fill_color="#efefef")
@@ -395,6 +397,8 @@ class PortfolioOptimizer:
         select.yaxis.minor_tick_line_color = text_line_color
         # no logo
         select.toolbar.logo = None
+
+        select.sizing_mode = "scale_width"
 
         if output is not None:
             output_file("cumulative_return.html", title="cumulative return")
