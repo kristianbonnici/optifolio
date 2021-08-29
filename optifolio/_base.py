@@ -373,29 +373,26 @@ class PortfolioOptimizer:
         select.toolbar.active_multi = range_tool
 
         # background & border color
-        select.background_fill_color = '#28283B'
-        select.border_fill_color = '#1F1E2C'
-        # background & border color
-        select.background_fill_color = '#28283B'
-        select.border_fill_color = '#1F1E2C'
+        select.background_fill_color = background_fill_color
+        select.border_fill_color = border_fill_color
         # grid
         select.ygrid.grid_line_alpha = 0.5
         select.ygrid.grid_line_dash = [6, 4]
-        select.ygrid.grid_line_color = '#7A7F9B'
+        select.ygrid.grid_line_color = grid_line_color
         select.xgrid.grid_line_alpha = 0.5
         select.xgrid.grid_line_dash = [6, 4]
-        select.xgrid.grid_line_color = '#7A7F9B'
+        select.xgrid.grid_line_color = grid_line_color
         # axis
-        select.xaxis.axis_line_color = '#F3F6FF'
-        select.yaxis.axis_line_color = '#F3F6FF'
-        select.xaxis.major_label_text_color = '#F3F6FF'
-        select.yaxis.major_label_text_color = '#F3F6FF'
-        select.xaxis.major_tick_line_color = '#F3F6FF'
+        select.xaxis.axis_line_color = text_line_color
+        select.yaxis.axis_line_color = text_line_color
+        select.xaxis.major_label_text_color = text_line_color
+        select.yaxis.major_label_text_color = text_line_color
+        select.xaxis.major_tick_line_color = text_line_color
         select.xaxis.major_tick_line_width = 3
-        select.xaxis.minor_tick_line_color = '#F3F6FF'
-        select.yaxis.major_tick_line_color = '#F3F6FF'
+        select.xaxis.minor_tick_line_color = text_line_color
+        select.yaxis.major_tick_line_color = text_line_color
         select.yaxis.major_tick_line_width = 3
-        select.yaxis.minor_tick_line_color = '#F3F6FF'
+        select.yaxis.minor_tick_line_color = text_line_color
         # no logo
         select.toolbar.logo = None
 
