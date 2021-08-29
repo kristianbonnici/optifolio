@@ -359,7 +359,7 @@ class PortfolioOptimizer:
         if toolbar is False:
             p.toolbar_location = None
 
-        select = figure(plot_height=130, plot_width=800, y_range=p.y_range,
+        select = figure(plot_height=height, plot_width=width, y_range=p.y_range,
                         x_axis_type="datetime", y_axis_type=None,
                         tools="", toolbar_location=None, background_fill_color="#efefef")
 
