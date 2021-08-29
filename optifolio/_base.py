@@ -289,7 +289,8 @@ class PortfolioOptimizer:
 
         return p
 
-    def plot_cumulative_return(self, benchmark_data=None,
+    def plot_cumulative_return(self, width=800, height=500,
+                               benchmark_data=None,
                                output="cumulative_return.html",
                                toolbar=False,
                                background_fill_color='#28283B',
@@ -313,7 +314,7 @@ class PortfolioOptimizer:
 
         source = ColumnDataSource(data=dict(date=weighted_norm_ret.index, close=weighted_norm_ret['Total']))
 
-        p = figure(plot_width=800, plot_height=400, x_axis_type="datetime",
+        p = figure(plot_width=width, plot_height=height, x_axis_type="datetime",
                    x_range=(min(weighted_norm_ret.index), max(weighted_norm_ret.index)),
                    tools="pan,wheel_zoom,save")
         p.grid.grid_line_alpha = 0.9
