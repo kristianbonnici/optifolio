@@ -188,10 +188,10 @@ class PortfolioOptimizer:
         p.yaxis.major_tick_line_width = 3
         p.yaxis.minor_tick_line_color = text_line_color
 
-        p.xaxis.axis_label = "Risk [Volatility]"
+        p.xaxis.axis_label = "Expected Annual Risk (Volatility)"
         p.xaxis.axis_label_text_color = text_line_color
         p.xaxis.axis_label_standoff = 20
-        p.yaxis.axis_label = "Expected Return"
+        p.yaxis.axis_label = "Expected Annual Return"
         p.yaxis.axis_label_text_color = text_line_color
         p.yaxis.axis_label_standoff = 20
         # no logo
@@ -204,7 +204,7 @@ class PortfolioOptimizer:
         frontier_source = ColumnDataSource(data=dict(
             x=self.frontier_vol,
             y=self.frontier_ret,
-            desc=len(self.frontier_vol) * ['efficient frontier'],
+            desc=len(self.frontier_vol) * ['frontier'],
             size=len(self.frontier_vol) * [0],
             sharpe=self.frontier_sharpe,
         ))
@@ -350,7 +350,7 @@ class PortfolioOptimizer:
         p.yaxis.major_tick_line_color = text_line_color
         p.yaxis.major_tick_line_width = 3
         p.yaxis.minor_tick_line_color = text_line_color
-        p.yaxis.axis_label = "Return"
+        p.yaxis.axis_label = "Normalized Return"
         p.yaxis.axis_label_text_color = text_line_color
         p.yaxis.axis_label_standoff = 20
         # no logo
