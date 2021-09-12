@@ -140,9 +140,15 @@ class PortfolioOptimizer:
     def _min_volatility(self, weights):
         return self._get_return_volatility_sharpe(weights)[1]
 
-    def plot_efficient_frontier(self, width=800, height=500, output="frontier.html", toolbar=False,
-                                background_fill_color='#28283B', border_fill_color='#1F1E2C',
-                                grid_line_color='#7A7F9B', text_line_color='#F3F6FF'
+    def plot_efficient_frontier(self,
+                                width=800,
+                                height=500,
+                                output="frontier.html",
+                                toolbar=False,
+                                background_fill_color='#28283B',
+                                border_fill_color='#1F1E2C',
+                                grid_line_color='#7A7F9B',
+                                text_line_color='#F3F6FF'
                                 ):
 
         from bokeh.plotting import ColumnDataSource, figure, output_file, show
@@ -161,7 +167,7 @@ class PortfolioOptimizer:
         # ========== init figure ==========
         p = figure(plot_width=width, plot_height=height, tooltips=tt,
                    y_range=(min(self.stock_ret)-0.1, max(self.stock_ret)+0.1),
-                   x_range=(min(self.frontier_vol)-0.1, max(self.frontier_vol)+0.1),
+                   x_range=(min(self.stock_vol)-0.1, max(self.stock_vol)+0.1),
                    tools="pan,wheel_zoom,save")
 
         # background & border color
