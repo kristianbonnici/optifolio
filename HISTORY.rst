@@ -2,6 +2,16 @@
 History
 =======
 
+0.5.0 (2021-09-12)
+------------------
+
+**New Features**
+
+* For **PortfolioOptimizer [object]:**
+    * **plot_weights [method]:** Creates a pie chart that displays portfolio weights for each ticker.
+    * **plot_cumulative_return [method]:** Generates a time series plot that displays portfolio performance over time.
+* Bug fixes.
+
 0.2.0 (2021-08-04)
 ------------------
 
